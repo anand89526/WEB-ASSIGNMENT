@@ -1,145 +1,250 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
   <title>Amity University – Demo Landing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-
-<body>
-  <header class="top-nav">
-    <div class="nav-container">
-      <h3 class="uni-title">Amity University</h3>
-      <nav>
-        <a href="#overview">Overview</a>
-        <a href="#courses">Courses</a>
-        <a href="#placements">Placements</a>
-        <a href="#enquiry">Apply</a>
+<body class="lp-body">
+  <div class="lp-shell">
+    <!-- Top Bar / Navigation -->
+    <header class="lp-topbar">
+      <div class="lp-topbar-left">
+        <div class="lp-logo-circle">A</div>
+        <div>
+          <div class="lp-brand-main">Amity University</div>
+          <div class="lp-brand-sub">Private University • Demo for assignment</div>
+        </div>
+      </div>
+      <nav class="lp-nav">
+        <a href="#overview" data-scroll="#overview" class="lp-nav-link">Overview</a>
+        <a href="#courses" data-scroll="#courses" class="lp-nav-link">Courses</a>
+        <a href="#placements" data-scroll="#placements" class="lp-nav-link">Placements</a>
+        <a href="#apply" data-scroll="#apply" class="lp-nav-link lp-nav-cta">Apply</a>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="container">
-
-    <section class="hero">
-      <div class="hero-text">
+    <!-- Hero -->
+    <section class="lp-hero">
+      <div class="lp-hero-main">
         <h1>Transform your career with Amity University.</h1>
-        <p>Explore industry-aligned programs with global exposure.</p>
-
-        <div class="hero-buttons">
-          <button class="btn" data-fees>💰 Check Course-wise Fees</button>
-          <a href="#" class="btn-outline">📄 Download Brochure</a>
-          <button id="open-form" class="btn-primary">✦ Apply Now</button>
+        <p>
+          Explore industry-aligned programs across Engineering, Management, Design, Commerce and more –
+          with strong placements and global exposure.
+        </p>
+        <div class="lp-hero-stats">
+          <div class="lp-stat">
+            <div class="lp-stat-number">300+</div>
+            <div class="lp-stat-label">Recruiters</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-number">50k+</div>
+            <div class="lp-stat-label">Alumni</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-number">20+</div>
+            <div class="lp-stat-label">Schools &amp; institutes</div>
+          </div>
         </div>
-
-        <div class="highlights">
-          <div class="card-sm">300+ recruiters</div>
-          <div class="card-sm">50k+ alumni</div>
-          <div class="card-sm">Modern campus</div>
+        <div class="lp-hero-ctas">
+          <button class="btn primary" data-fees="amity">💰 Check Course-wise Fees</button>
+          <button class="btn ghost" type="button" id="download-brochure">
+            📄 Download Brochure
+          </button>
+          <button class="btn outline" type="button" data-scroll="#apply">
+            🚀 Apply Now
+          </button>
         </div>
       </div>
-
-      <div class="hero-img">
-        <img src="https://www.amity.edu/images/logo.png" alt="Amity logo" />
+      <div class="lp-hero-side">
+        <div class="lp-hero-tag">Amity – Demo Landing for Assignment</div>
+        <div class="lp-hero-logo-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/0/03/Amity_University_logo.png"
+            alt="Amity logo"
+          />
+        </div>
+        <ul class="lp-hero-points">
+          <li>Modern labs &amp; campus facilities</li>
+          <li>Scholarships for high performers</li>
+          <li>Global tie-ups &amp; semester abroad options</li>
+        </ul>
       </div>
     </section>
 
-    <!-- OVERVIEW -->
-    <section id="overview" class="section">
-      <h2>University Overview</h2>
-      <p id="overview-text">Loading overview...</p>
-    </section>
+    <!-- Main Grid -->
+    <main class="lp-main-grid">
+      <!-- Left column: content -->
+      <div class="lp-main-left">
+        <!-- Overview -->
+        <section class="card" id="overview">
+          <div class="card-header">
+            <h2>University Overview</h2>
+          </div>
+          <p id="overview-text">Loading overview…</p>
 
-    <!-- COURSES -->
-    <section id="courses" class="section">
-      <h2>Courses Offered</h2>
-      <div id="courses-list" class="course-list">
-        Loading courses...
+          <div class="lp-pill-row">
+            <span class="pill">UG &amp; PG Programs</span>
+            <span class="pill">Scholarships*</span>
+            <span class="pill">Industry mentors</span>
+          </div>
+        </section>
+
+        <!-- Courses -->
+        <section class="card" id="courses">
+          <div class="card-header">
+            <h2>Courses Offered</h2>
+            <span class="card-caption">Popular programs (sample data)</span>
+          </div>
+          <ul id="courses-list" class="lp-course-list">
+            <li>Loading courses…</li>
+          </ul>
+        </section>
+
+        <!-- Placements -->
+        <section class="card" id="placements">
+          <div class="card-header">
+            <h2>Placements Snapshot</h2>
+          </div>
+          <div id="placements-content">
+            <p>Loading placements…</p>
+          </div>
+        </section>
+
+        <!-- Facilities -->
+        <section class="card" id="facilities-section">
+          <div class="card-header">
+            <h2>Campus &amp; Facilities</h2>
+          </div>
+          <div id="facilities" class="lp-facilities">
+            <p>Loading facilities…</p>
+          </div>
+        </section>
+
+        <!-- FAQ (static, interactive via small JS) -->
+        <section class="card">
+          <div class="card-header">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>When does the next intake start?</summary>
+              <p>Most programs admit students in July–August. Some PG programs also have a January intake.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Is there any application fee?</summary>
+              <p>For this demo page, fees are not real. On the actual Amity website, an application fee may apply.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Is this an official Amity page?</summary>
+              <p>No. This is a sample landing page created only for an internship assignment.</p>
+            </details>
+          </div>
+        </section>
       </div>
-    </section>
 
-    <!-- PLACEMENTS -->
-    <section id="placements" class="section">
-      <h2>Placements Snapshot</h2>
-      <div id="placements-box">
-        <p>Loading placements...</p>
-      </div>
-    </section>
+      <!-- Right column: Lead form -->
+      <aside class="lp-main-right" id="apply">
+        <section class="card sticky">
+          <div class="card-header">
+            <h2>Apply / Enquire</h2>
+            <span class="card-caption">
+              Share basic details and get course-wise fee details &amp; brochure on your email / phone.
+            </span>
+          </div>
+          <form id="lead-form" class="lead-form">
+            <div class="field">
+              <label>Full name</label>
+              <input class="input" name="fullName" required />
+            </div>
 
-    <!-- FACILITIES -->
-    <section id="facilities-section" class="section">
-      <h2>Campus & Facilities</h2>
-      <div id="facilities" class="facilities-list">Loading facilities...</div>
-    </section>
+            <div class="field">
+              <label>Email</label>
+              <input class="input" name="email" type="email" required />
+            </div>
 
-    <!-- FAQ -->
-    <section class="section" id="faq">
-      <h2>Frequently Asked Questions</h2>
+            <div class="field">
+              <label>Phone (10-digit, India)</label>
+              <input
+                class="input"
+                name="phone"
+                placeholder="98XXXXXXXX"
+                inputmode="numeric"
+                required
+              />
+            </div>
 
-      <div class="faq-item">
-        <div class="faq-question">When does the next intake start?</div>
-        <div class="faq-answer">Admissions typically open twice a year.</div>
-      </div>
+            <div class="field">
+              <label>State</label>
+              <input class="input" name="state" placeholder="e.g. Punjab" />
+            </div>
 
-      <div class="faq-item">
-        <div class="faq-question">Is there any application fee?</div>
-        <div class="faq-answer">Yes, ₹1500 (waivers may apply).</div>
-      </div>
-    </section>
+            <div class="field">
+              <label>Course interested</label>
+              <select class="input" name="course">
+                <option value="">Select a course</option>
+                <!-- options get filled from API -->
+              </select>
+            </div>
 
-    <!-- FORM -->
-    <section id="enquiry" class="section">
-      <h2>Apply / Enquire</h2>
-      <form id="lead-form">
-        <input name="fullName" type="text" placeholder="Full name" required />
-        <input name="email" type="email" placeholder="Email" required />
-        <input name="phone" type="tel" placeholder="Phone number" required />
+            <div class="field">
+              <label>Intake year</label>
+              <select class="input" name="intake">
+                <option value="">Select year</option>
+                <option>2025</option>
+                <option>2026</option>
+                <option>2027</option>
+              </select>
+            </div>
 
-        <select name="state">
-          <option value="">Select State</option>
-          <option>Delhi NCR</option>
-          <option>Punjab</option>
-          <option>UP</option>
-        </select>
+            <label class="checkbox-row">
+              <input type="checkbox" name="consent" />
+              <span>I agree to be contacted by the university / partners.</span>
+            </label>
 
-        <select name="course">
-          <option value="">Course interested</option>
-        </select>
+            <div class="btn-row">
+              <button class="btn primary full" type="submit">Submit enquiry</button>
+              <button class="btn ghost full" type="button" id="clear-form">Clear</button>
+            </div>
 
-        <select name="intake">
-          <option value="">Intake year</option>
-          <option>2025</option>
-          <option>2026</option>
-        </select>
+            <div id="form-msg" class="form-msg"></div>
+          </form>
 
-        <label class="checkbox">
-          <input type="checkbox" name="consent" />  
-          I agree to be contacted by the university.
-        </label>
+          <div class="lp-help-text">
+            Need help choosing a course? Submit the form and request a 1:1 counselling call to
+            understand course fit, fees and placements.
+          </div>
+        </section>
+      </aside>
+    </main>
 
-        <button type="submit" class="btn-primary">Submit enquiry</button>
-        <button type="button" id="clear-form" class="btn-outline">Clear</button>
+    <footer class="lp-footer">
+      Demo landing page for assignment • Amity University (not an official page).
+    </footer>
+  </div>
 
-        <div id="form-msg"></div>
-      </form>
-    </section>
-  </main>
-
-  <!-- MODAL -->
+  <!-- Fees Modal -->
   <div id="modal" class="modal-backdrop">
-    <div class="modal-content-box">
-      <button id="close-modal">×</button>
-      <div id="modal-content"></div>
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Course-wise Fees (Demo Data)</h3>
+        <button class="modal-close" type="button" id="close-modal">✕</button>
+      </div>
+      <div id="modal-content" class="modal-body">
+        Loading fees…
+      </div>
     </div>
   </div>
 
-  <!-- PIPE + SCRIPT -->
+  <!-- Pipedream Endpoint (replace with your real URL) -->
   <script>
-    window.PIPEDREAM_ENDPOINT = "YOUR_WEBHOOK_URL_HERE";
+    // TODO: put your real Pipedream webhook URL here
+    window.PIPEDREAM_ENDPOINT = "https://YOUR-PIPEDREAM-URL.m.pipedream.net";
   </script>
   <script src="scripts.js"></script>
-  <script> initPage("amity"); </script>
-
+  <script>
+    window.initPage && window.initPage("amity");
+  </script>
 </body>
 </html>

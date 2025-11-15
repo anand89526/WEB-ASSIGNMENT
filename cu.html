@@ -1,149 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
   <title>Chandigarh University – Demo Landing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-
-<body>
-
-  <header class="top-nav">
-    <div class="nav-container">
-      <h3 class="uni-title">Chandigarh University (CU)</h3>
-      <nav>
-        <a href="#overview">Overview</a>
-        <a href="#courses">Courses</a>
-        <a href="#placements">Placements</a>
-        <a href="#enquiry">Apply</a>
+<body class="lp-body">
+  <div class="lp-shell">
+    <!-- Top Bar -->
+    <header class="lp-topbar">
+      <div class="lp-topbar-left">
+        <div class="lp-logo-circle">CU</div>
+        <div>
+          <div class="lp-brand-main">Chandigarh University (CU)</div>
+          <div class="lp-brand-sub">Private University • Demo for assignment</div>
+        </div>
+      </div>
+      <nav class="lp-nav">
+        <a href="#overview" data-scroll="#overview" class="lp-nav-link">Overview</a>
+        <a href="#courses" data-scroll="#courses" class="lp-nav-link">Courses</a>
+        <a href="#placements" data-scroll="#placements" class="lp-nav-link">Placements</a>
+        <a href="#apply" data-scroll="#apply" class="lp-nav-link lp-nav-cta">Apply</a>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="container">
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-text">
-        <h1>Study at Chandigarh University (CU)</h1>
-        <p>Outcome-based programs with placements and global exposure.</p>
-
-        <div class="hero-buttons">
-          <button class="btn" data-fees>💰 Check Course-wise Fees</button>
-          <a href="#" class="btn-outline">📄 Download Brochure</a>
-          <button id="open-form" class="btn-primary">✦ Apply Now</button>
+    <!-- Hero -->
+    <section class="lp-hero">
+      <div class="lp-hero-main">
+        <h1>Study at Chandigarh University (CU).</h1>
+        <p>
+          Outcome-based programs with strong industry collaborations, global exposure and excellent
+          placements.
+        </p>
+        <div class="lp-hero-stats">
+          <div class="lp-stat">
+            <div class="lp-stat-number">200+</div>
+            <div class="lp-stat-label">Recruiters</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-number">30k+</div>
+            <div class="lp-stat-label">Students</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-number">95%</div>
+            <div class="lp-stat-label">Placement (demo)</div>
+          </div>
         </div>
-
-        <div class="highlights">
-          <div class="card-sm">Industry projects</div>
-          <div class="card-sm">Global tie-ups</div>
-          <div class="card-sm">Vibrant campus</div>
+        <div class="lp-hero-ctas">
+          <button class="btn primary" data-fees="cu">💰 Check Course-wise Fees</button>
+          <button class="btn ghost" type="button" id="download-brochure-cu">
+            📄 Download Brochure
+          </button>
+          <button class="btn outline" type="button" data-scroll="#apply">
+            🚀 Apply Now
+          </button>
         </div>
       </div>
-
-      <div class="hero-img">
-        <img src="https://www.cuchd.in/assets/images/cu-logo.svg" alt="CU Logo" />
+      <div class="lp-hero-side">
+        <div class="lp-hero-tag">CU – Demo Landing for Assignment</div>
+        <div class="lp-hero-logo-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Chandigarh_University_logo.png/320px-Chandigarh_University_logo.png"
+            alt="Chandigarh University logo"
+          />
+        </div>
+        <ul class="lp-hero-points">
+          <li>Industry projects &amp; capstone</li>
+          <li>Global tie-ups &amp; exchange programs</li>
+          <li>Vibrant campus life &amp; student clubs</li>
+        </ul>
       </div>
     </section>
 
-    <!-- OVERVIEW -->
-    <section id="overview" class="section">
-      <h2>University Overview</h2>
-      <p id="overview-text">Loading overview...</p>
-    </section>
+    <!-- Main Grid -->
+    <main class="lp-main-grid">
+      <!-- Left column -->
+      <div class="lp-main-left">
+        <!-- Overview -->
+        <section class="card" id="overview">
+          <div class="card-header">
+            <h2>University Overview</h2>
+          </div>
+          <p id="overview-text">Loading overview…</p>
 
-    <!-- COURSES -->
-    <section id="courses" class="section">
-      <h2>Featured Programs</h2>
-      <div id="courses-list" class="course-list">Loading courses...</div>
-    </section>
+          <div class="lp-pill-row">
+            <span class="pill">Engineering &amp; Applied Sciences</span>
+            <span class="pill">Management &amp; Business</span>
+            <span class="pill">International exposure</span>
+          </div>
+        </section>
 
-    <!-- PLACEMENTS -->
-    <section id="placements" class="section">
-      <h2>Placement Highlights</h2>
-      <div id="placements-box">
-        <p>Loading placements...</p>
+        <!-- Courses -->
+        <section class="card" id="courses">
+          <div class="card-header">
+            <h2>Featured Programs</h2>
+            <span class="card-caption">Sample programs (demo data)</span>
+          </div>
+          <ul id="courses-list" class="lp-course-list">
+            <li>Loading courses…</li>
+          </ul>
+        </section>
+
+        <!-- Placements -->
+        <section class="card" id="placements">
+          <div class="card-header">
+            <h2>Placement Highlights</h2>
+          </div>
+          <div id="placements-content">
+            <p>Loading placements…</p>
+          </div>
+        </section>
+
+        <!-- Facilities -->
+        <section class="card" id="facilities-section">
+          <div class="card-header">
+            <h2>Campus &amp; Facilities</h2>
+          </div>
+          <div id="facilities" class="lp-facilities">
+            <p>Loading facilities…</p>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="card">
+          <div class="card-header">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>What kind of projects will I work on?</summary>
+              <p>You’ll work on hands-on projects and demo capstones aligned with industry problems.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Are placements guaranteed?</summary>
+              <p>
+                No guarantees – this page only shows sample data. For real details, refer to the
+                official CU website.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>Is this an official CU page?</summary>
+              <p>No. This is a sample page built purely for a web development assignment.</p>
+            </details>
+          </div>
+        </section>
       </div>
-    </section>
 
-    <!-- FACILITIES -->
-    <section id="facilities-section" class="section">
-      <h2>Campus Facilities</h2>
-      <div id="facilities" class="facilities-list">Loading facilities...</div>
-    </section>
+      <!-- Right column: Lead form -->
+      <aside class="lp-main-right" id="apply">
+        <section class="card sticky">
+          <div class="card-header">
+            <h2>Apply / Enquire</h2>
+            <span class="card-caption">
+              Fill your details to get course-wise fee ranges and sample brochure via email / phone.
+            </span>
+          </div>
+          <form id="lead-form" class="lead-form">
+            <div class="field">
+              <label>Full name</label>
+              <input class="input" name="fullName" required />
+            </div>
 
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <h2>Frequently Asked Questions</h2>
+            <div class="field">
+              <label>Email</label>
+              <input class="input" name="email" type="email" required />
+            </div>
 
-      <div class="faq-item">
-        <div class="faq-question">Does CU offer international programs?</div>
-        <div class="faq-answer">Yes, CU has global academic tie-ups.</div>
-      </div>
+            <div class="field">
+              <label>Phone (10-digit, India)</label>
+              <input
+                class="input"
+                name="phone"
+                placeholder="98XXXXXXXX"
+                inputmode="numeric"
+                required
+              />
+            </div>
 
-      <div class="faq-item">
-        <div class="faq-question">Does CU provide hostel facilities?</div>
-        <div class="faq-answer">Yes, CU offers modern on-campus hostels.</div>
-      </div>
-    </section>
+            <div class="field">
+              <label>State</label>
+              <input class="input" name="state" placeholder="e.g. Punjab" />
+            </div>
 
-    <!-- FORM -->
-    <section id="enquiry" class="section">
-      <h2>Apply / Enquire</h2>
-      <form id="lead-form">
+            <div class="field">
+              <label>Course interested</label>
+              <select class="input" name="course">
+                <option value="">Select a course</option>
+              </select>
+            </div>
 
-        <input name="fullName" type="text" placeholder="Full name" required />
-        <input name="email" type="email" placeholder="Email" required />
-        <input name="phone" type="tel" placeholder="Phone number" required />
+            <div class="field">
+              <label>Intake year</label>
+              <select class="input" name="intake">
+                <option value="">Select year</option>
+                <option>2025</option>
+                <option>2026</option>
+                <option>2027</option>
+              </select>
+            </div>
 
-        <select name="state">
-          <option value="">Select State</option>
-          <option>Delhi NCR</option>
-          <option>Punjab</option>
-          <option>Haryana</option>
-        </select>
+            <label class="checkbox-row">
+              <input type="checkbox" name="consent" />
+              <span>I agree to be contacted by the university / partners.</span>
+            </label>
 
-        <select name="course">
-          <option value="">Course interested</option>
-        </select>
+            <div class="btn-row">
+              <button class="btn primary full" type="submit">Submit enquiry</button>
+              <button class="btn ghost full" type="button" id="clear-form">Clear</button>
+            </div>
 
-        <select name="intake">
-          <option value="">Intake year</option>
-          <option>2025</option>
-          <option>2026</option>
-        </select>
+            <div id="form-msg" class="form-msg"></div>
+          </form>
 
-        <label class="checkbox">
-          <input type="checkbox" name="consent" />
-          I agree to be contacted.
-        </label>
+          <div class="lp-help-text">
+            Want to understand which CU program fits you best? Submit the form and request a
+            counselling call.
+          </div>
+        </section>
+      </aside>
+    </main>
 
-        <button type="submit" class="btn-primary">Submit enquiry</button>
-        <button type="button" id="clear-form" class="btn-outline">Clear</button>
-
-        <div id="form-msg"></div>
-      </form>
-    </section>
-
-  </main>
-
-  <!-- MODAL -->
-  <div id="modal" class="modal-backdrop">
-    <div class="modal-content-box">
-      <button id="close-modal">×</button>
-      <div id="modal-content"></div>
-    </div>
+    <footer class="lp-footer">
+      Demo landing page for assignment • Chandigarh University (not an official page).
+    </footer>
   </div>
 
-  <!-- SCRIPTS -->
-  <script>
-    window.PIPEDREAM_ENDPOINT = "YOUR_WEBHOOK_URL_HERE";
-  </script>
-  <script src="scripts.js"></script>
-  <script> initPage("cu"); </script>
-
-</body>
-
-</html>
+  <!-- Fees Modal -->
+  <div id="modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Course-wise Fees (Demo Data)</h3>
+        <button class="modal-close"
