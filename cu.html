@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chandigarh University — Landing</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <a href="/index.html" class="small">← Back</a>
+    <div class="lp-hero section">
+      <div>
+        <h1>Chandigarh University (CU)</h1>
+        <p class="small">Private University — engineering, management, applied sciences and more.</p>
+        <div class="buttons" style="margin-top:10px">
+          <button class="btn" data-fees="cu">Check Course-wise Fees</button>
+          <a class="btn secondary" href="#" id="download-brochure-cu">Download Brochure</a>
+          <button class="btn" id="open-form-cu">Apply Now</button>
+        </div>
+      </div>
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Chandigarh_University_logo.png/320px-Chandigarh_University_logo.png" alt="CU logo" />
+    </div>
+
+    <div class="lp-grid">
+      <div>
+        <section class="section">
+          <h2>Overview</h2>
+          <p id="overview-text">Loading overview…</p>
+        </section>
+
+        <section class="section">
+          <h2>Courses</h2>
+          <ul id="courses-list">Loading courses…</ul>
+        </section>
+
+        <section class="section">
+          <h2>Placements</h2>
+          <div id="placements">Loading placements…</div>
+        </section>
+
+        <section class="section">
+          <h2>Facilities</h2>
+          <div id="facilities">Loading facilities…</div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="section">
+          <h3>Apply / Enquire</h3>
+          <form id="lead-form" class="form">
+            <input class="input" name="fullName" placeholder="Full name" required />
+            <input class="input" name="email" type="email" placeholder="Email" required />
+            <input class="input" name="phone" placeholder="Phone (10 digits)" inputmode="numeric" required />
+            <input class="input" name="state" placeholder="State" />
+            <select class="input" name="course">
+              <option value="">Course interested</option>
+            </select>
+            <select class="input" name="intake">
+              <option value="">Intake year</option>
+              <option>2025</option><option>2026</option><option>2027</option>
+            </select>
+            <label><input type="checkbox" name="consent" /> I agree to be contacted.</label>
+            <div style="display:flex;gap:8px">
+              <button class="btn" type="submit">Submit</button>
+              <button type="button" class="btn secondary" id="clear-form">Clear</button>
+            </div>
+            <div id="form-msg" class="small"></div>
+          </form>
+        </section>
+
+        <section class="section small">
+          <strong>Quick Facts</strong>
+          <p>Established: 2012 (example)</p>
+          <p>Type: Private</p>
+        </section>
+      </aside>
+    </div>
+
+    <div class="footer">Assignment demo — Chandigarh University landing page.</div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop">
+    <div class="modal">
+      <h3>Course-wise Fees</h3>
+      <div id="modal-content">Loading fees…</div>
+      <div style="margin-top:12px"><button class="btn" id="close-modal">Close</button></div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+  <script>initPage('cu');</script>
+  <script>
+  window.PIPEDREAM_ENDPOINT = "https://eo9f1g0x.m.pipedream.net";
+</script>
+<script src="scripts.js"></script>
+
+</body>
+</html>
