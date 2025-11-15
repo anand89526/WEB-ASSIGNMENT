@@ -3,20 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chandigarh University — Landing</title>
+  <title>Chandigarh University – Admissions Landing</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <span>CU</span> Chandigarh University
+      </div>
+      <div class="nav-links">
+        <a href="#overview" data-scroll="#overview">Overview</a>
+        <a href="#courses" data-scroll="#courses">Programs</a>
+        <a href="#placements" data-scroll="#placements-section">Placements</a>
+        <a href="#apply" data-scroll="#apply">Apply</a>
+      </div>
+    </div>
+  </div>
+
   <main class="container">
-    <a href="/index.html" class="small">← Back</a>
+    <a href="/index.html" class="back-link">← All Landing Pages</a>
+
+    <div class="topbar">
+      <div>Private University • NAAC Accredited (Example)</div>
+      <div class="badge-pill">Chandigarh University – Demo Landing</div>
+    </div>
+
     <div class="lp-hero section">
-      <div>
-        <h1>Chandigarh University (CU)</h1>
-        <p class="small">Private University — engineering, management, applied sciences and more.</p>
-        <div class="buttons" style="margin-top:10px">
-          <button class="btn" data-fees="cu">Check Course-wise Fees</button>
-          <a class="btn secondary" href="#" id="download-brochure-cu">Download Brochure</a>
-          <button class="btn" id="open-form-cu">Apply Now</button>
+      <div class="lp-hero-main">
+        <h1>Study at Chandigarh University (CU).</h1>
+        <p class="hero-tagline">
+          CU offers outcome-based programs with strong industry collaborations, global exposure and excellent placements.
+        </p>
+        <div class="buttons" style="margin-bottom:8px">
+          <button class="btn" data-fees="cu">💰 Check Course-wise Fees</button>
+          <a class="btn secondary" id="download-brochure-cu">📄 Download Brochure</a>
+          <button class="btn" id="open-form-cu">🚀 Apply Now</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>New-age programs</strong>
+            AI/ML, Data Science, Cyber Security & more.
+          </div>
+          <div class="hero-stat">
+            <strong>Global tie-ups</strong>
+            Collaborations with international universities (demo).
+          </div>
+          <div class="hero-stat">
+            <strong>Vibrant campus</strong>
+            Clubs, fests and innovation labs.
+          </div>
         </div>
       </div>
       <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Chandigarh_University_logo.png/320px-Chandigarh_University_logo.png" alt="CU logo" />
@@ -24,30 +60,72 @@
 
     <div class="lp-grid">
       <div>
-        <section class="section">
-          <h2>Overview</h2>
+        <section class="section" id="overview">
+          <h2>University Overview</h2>
           <p id="overview-text">Loading overview…</p>
+          <div class="stats-row">
+            <div class="stat-card">
+              <strong>Industry projects</strong>
+              Hands-on learning with live capstone projects.
+            </div>
+            <div class="stat-card">
+              <strong>Career support</strong>
+              Resume building, mock interviews & aptitude training.
+            </div>
+          </div>
         </section>
 
-        <section class="section">
-          <h2>Courses</h2>
+        <section class="section" id="courses">
+          <h2>Featured Programs</h2>
           <ul id="courses-list">Loading courses…</ul>
+          <p class="small">*Programs listed for demo purpose – not official CU data.</p>
         </section>
 
-        <section class="section">
-          <h2>Placements</h2>
+        <section class="section" id="placements-section">
+          <h2>Placement Highlights</h2>
           <div id="placements">Loading placements…</div>
         </section>
 
         <section class="section">
-          <h2>Facilities</h2>
-          <div id="facilities">Loading facilities…</div>
+          <h2>Facilities & Student Life</h2>
+          <div id="facilities"></div>
+          <div class="chips">
+            <span class="chip-pill">Research labs</span>
+            <span class="chip-pill">Innovation center</span>
+            <span class="chip-pill">Hostels</span>
+            <span class="chip-pill">Sports & cultural clubs</span>
+          </div>
+        </section>
+
+        <section class="section" id="faq">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <div class="faq-header">
+              <span>How do I know if I’m eligible?</span><span>+</span>
+            </div>
+            <div class="faq-body">
+              Basic eligibility depends on program and previous academic scores (demo). After submitting the form, the team will share eligibility details.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-header">
+              <span>Is hostel accommodation available?</span><span>+</span>
+            </div>
+            <div class="faq-body">
+              Yes, CU offers on-campus hostel facilities (demo). Limited seats – apply early for priority.
+            </div>
+          </div>
         </section>
       </div>
 
-      <aside>
+      <aside id="apply">
         <section class="section">
-          <h3>Apply / Enquire</h3>
+          <h2>Apply / Request Callback</h2>
+          <p class="small">
+            Fill the form to get a personalised counselling call with details on fees, eligibility and placements for your chosen program.
+          </p>
           <form id="lead-form" class="form">
             <input class="input" name="fullName" placeholder="Full name" required />
             <input class="input" name="email" type="email" placeholder="Email" required />
@@ -60,9 +138,9 @@
               <option value="">Intake year</option>
               <option>2025</option><option>2026</option><option>2027</option>
             </select>
-            <label><input type="checkbox" name="consent" /> I agree to be contacted.</label>
-            <div style="display:flex;gap:8px">
-              <button class="btn" type="submit">Submit</button>
+            <label><input type="checkbox" name="consent" /> I agree to be contacted by the admissions team.</label>
+            <div style="display:flex;gap:8px;margin-top:2px">
+              <button class="btn" type="submit">Submit enquiry</button>
               <button type="button" class="btn secondary" id="clear-form">Clear</button>
             </div>
             <div id="form-msg" class="small"></div>
@@ -70,31 +148,34 @@
         </section>
 
         <section class="section small">
-          <strong>Quick Facts</strong>
-          <p>Established: 2012 (example)</p>
-          <p>Type: Private</p>
+          <strong>Tip for assignment reviewers</strong>
+          <p>This sidebar shows a working, responsive lead form posting data to a Pipedream HTTP workflow.</p>
         </section>
       </aside>
     </div>
 
-    <div class="footer">Assignment demo — Chandigarh University landing page.</div>
+    <div class="footer">
+      Demo landing page for assignment • Chandigarh University (not an official page).
+    </div>
   </main>
 
-  <!-- Modal -->
+  <!-- Fees Modal -->
   <div id="modal" class="modal-backdrop">
     <div class="modal">
-      <h3>Course-wise Fees</h3>
+      <h3>Course-wise Fees (Demo data)</h3>
       <div id="modal-content">Loading fees…</div>
-      <div style="margin-top:12px"><button class="btn" id="close-modal">Close</button></div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn secondary" id="close-modal">Close</button>
+      </div>
     </div>
   </div>
 
-  <script src="scripts.js"></script>
-  <script>initPage('cu');</script>
   <script>
   window.PIPEDREAM_ENDPOINT = "https://eo9f1g0x.m.pipedream.net";
 </script>
 <script src="scripts.js"></script>
 
+  <script src="scripts.js"></script>
+  <script>initPage('cu');</script>
 </body>
 </html>

@@ -3,20 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Amity University — Landing</title>
+  <title>Amity University – Admissions Landing</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <span>A</span> Amity University
+      </div>
+      <div class="nav-links">
+        <a href="#overview" data-scroll="#overview">Overview</a>
+        <a href="#courses" data-scroll="#courses">Courses</a>
+        <a href="#placements" data-scroll="#placements-section">Placements</a>
+        <a href="#apply" data-scroll="#apply">Apply</a>
+      </div>
+    </div>
+  </div>
+
   <main class="container">
-    <a href="/index.html" class="small">← Back</a>
+    <a href="/index.html" class="back-link">← All Landing Pages</a>
+
+    <div class="topbar">
+      <div>Private University • NAAC Accredited (Example)</div>
+      <div class="badge-pill">Amity – Demo Landing for Assignment</div>
+    </div>
+
     <div class="lp-hero section">
-      <div>
-        <h1>Amity University</h1>
-        <p class="small">Private University — courses across engineering, management, design and more.</p>
-        <div class="buttons" style="margin-top:10px">
-          <button class="btn" data-fees="amity">Check Course-wise Fees</button>
-          <a class="btn secondary" href="#" id="download-brochure">Download Brochure</a>
-          <button class="btn" id="open-form">Apply Now</button>
+      <div class="lp-hero-main">
+        <h1>Transform your career with Amity University.</h1>
+        <p class="hero-tagline">
+          Explore industry-aligned programs in Engineering, Management, Design and more – with strong placements and global exposure.
+        </p>
+        <div class="buttons" style="margin-bottom:8px">
+          <button class="btn" data-fees="amity">💰 Check Course-wise Fees</button>
+          <a class="btn secondary" id="download-brochure">📄 Download Brochure</a>
+          <button class="btn" id="open-form">🚀 Apply Now</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>300+ recruiters</strong>
+            Top MNCs hiring Amity graduates.
+          </div>
+          <div class="hero-stat">
+            <strong>50K+ alumni</strong>
+            Active alumni network across the globe.
+          </div>
+          <div class="hero-stat">
+            <strong>Modern campus</strong>
+            Labs, incubation, hostels & sports complex.
+          </div>
         </div>
       </div>
       <img src="https://upload.wikimedia.org/wikipedia/en/0/03/Amity_University_logo.png" alt="Amity logo" />
@@ -24,30 +60,73 @@
 
     <div class="lp-grid">
       <div>
-        <section class="section">
-          <h2>Overview</h2>
+        <section class="section" id="overview">
+          <h2>University Overview</h2>
           <p id="overview-text">Loading overview…</p>
+          <div class="stats-row">
+            <div class="stat-card">
+              <strong>UG & PG Programs</strong>
+              Engineering, Management, Design, Commerce and more.
+            </div>
+            <div class="stat-card">
+              <strong>Scholarships*</strong>
+              Merit-based scholarships available for high scorers.
+            </div>
+          </div>
         </section>
 
-        <section class="section">
-          <h2>Courses</h2>
+        <section class="section" id="courses">
+          <h2>Popular Programs</h2>
           <ul id="courses-list">Loading courses…</ul>
+          <p class="small">*The above list is indicative for demo – actual offerings may vary.</p>
         </section>
 
-        <section class="section">
-          <h2>Placements</h2>
+        <section class="section" id="placements-section">
+          <h2>Placements Snapshot</h2>
           <div id="placements">Loading placements…</div>
         </section>
 
         <section class="section">
-          <h2>Facilities</h2>
-          <div id="facilities">Loading facilities…</div>
+          <h2>Campus & Facilities</h2>
+          <div id="facilities"></div>
+          <div class="chips">
+            <span class="chip-pill">On-campus hostels</span>
+            <span class="chip-pill">24×7 Library</span>
+            <span class="chip-pill">Tech incubator</span>
+            <span class="chip-pill">Sports & fitness</span>
+          </div>
+        </section>
+
+        <section class="section" id="faq">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <div class="faq-header">
+              <span>When does the next intake start?</span><span>+</span>
+            </div>
+            <div class="faq-body">
+              Intakes are typically in July / August (demo data). Use the form to get exact intake details for your course.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-header">
+              <span>Is there any application fee?</span><span>+</span>
+            </div>
+            <div class="faq-body">
+              Most programs have a small application fee (demo). The counselling team will share details after you submit the form.
+            </div>
+          </div>
         </section>
       </div>
 
-      <aside>
+      <aside id="apply">
         <section class="section">
-          <h3>Apply / Enquire</h3>
+          <h2>Apply / Enquire</h2>
+          <p class="small">
+            Share a few basic details and the admissions team will reach out with
+            course-wise fee structure, brochures and scholarship options.
+          </p>
           <form id="lead-form" class="form">
             <input class="input" name="fullName" placeholder="Full name" required />
             <input class="input" name="email" type="email" placeholder="Email" required />
@@ -60,9 +139,9 @@
               <option value="">Intake year</option>
               <option>2025</option><option>2026</option><option>2027</option>
             </select>
-            <label><input type="checkbox" name="consent" /> I agree to be contacted.</label>
-            <div style="display:flex;gap:8px">
-              <button class="btn" type="submit">Submit</button>
+            <label><input type="checkbox" name="consent" /> I agree to be contacted by the university / partners.</label>
+            <div style="display:flex;gap:8px;margin-top:2px">
+              <button class="btn" type="submit">Submit enquiry</button>
               <button type="button" class="btn secondary" id="clear-form">Clear</button>
             </div>
             <div id="form-msg" class="small"></div>
@@ -70,30 +149,35 @@
         </section>
 
         <section class="section small">
-          <strong>Quick Facts</strong>
-          <p>Established: 2005 (example)</p>
-          <p>Type: Private</p>
+          <strong>Need help choosing a course?</strong>
+          <p>Submit the form and request a 1:1 counselling call to understand course fit, fees and placements.</p>
         </section>
       </aside>
     </div>
 
-    <div class="footer">Assignment demo — Amity University landing page.</div>
+    <div class="footer">
+      Demo landing page for assignment • Amity University (not an official page).
+    </div>
   </main>
 
-  <!-- Modal -->
+  <!-- Fees Modal -->
   <div id="modal" class="modal-backdrop">
     <div class="modal">
-      <h3>Course-wise Fees</h3>
+      <h3>Course-wise Fees (Demo data)</h3>
       <div id="modal-content">Loading fees…</div>
-      <div style="margin-top:12px"><button class="btn" id="close-modal">Close</button></div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn secondary" id="close-modal">Close</button>
+      </div>
     </div>
   </div>
 
+  <!-- Set your Pipedream endpoint here -->
+  <script>
+  window.PIPEDREAM_ENDPOINT = "https://eo9f1g0x.m.pipedream.net";
+</script>
+<script src="scripts.js"></script>
+
   <script src="scripts.js"></script>
   <script>initPage('amity');</script>
-  <script>
-  window.PIPEDREAM_ENDPOINT = "YOUR_PIPEDREAM_URL_HERE";
-</script>
-
 </body>
 </html>

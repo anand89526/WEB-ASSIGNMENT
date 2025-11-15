@@ -1,127 +1,210 @@
-// scripts.js — shared for both pages
-const API_BASE = '/api'; // On Vercel this will route to serverless functions
+/*-------------------------------------------------------
+  UNIVERSAL CONFIG
+---------------------------------------------------------*/
+const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
 
-function el(q){return document.querySelector(q)}
-function els(q){return Array.from(document.querySelectorAll(q))}
-
-async function fetchJSON(path){
-  const r = await fetch(path);
-  if(!r.ok) throw new Error('Network error');
-  return r.json();
-}
-
-function showModal(html){
-  const modal = el('#modal');
-  el('#modal-content').innerHTML = html;
-  modal.classList.add('show');
-}
-function closeModal(){ el('#modal').classList.remove('show') }
-
-document.addEventListener('click', (e)=>{
-  if(e.target && e.target.id === 'close-modal') closeModal();
-  if(e.target && e.target.classList.contains('btn') && e.target.dataset.fees){
-    const uni = e.target.dataset.fees;
-    loadFeesModal(uni);
+function api(path) {
+  // Local → load from /api/*.js files
+  if (isLocal) {
+    return fetch(`./api/${path}.js`).then(res => res.json());
   }
-})
 
-// populate page (uni = 'amity' or 'cu')
-async function initPage(uni){
-  try{
-    // Overview
-    const ov = await fetchJSON(`${API_BASE}/overview?uni=${uni}`);
-    el('#overview-text').textContent = ov.description;
+  // Vercel → use serverless endpoint
+  return fetch(`/api/${path}`).then(res => res.json());
+}
 
-    // Courses
-    const courses = await fetchJSON(`${API_BASE}/courses?uni=${uni}`);
-    const list = el('#courses-list'); list.innerHTML = '';
-    const sel = el('select[name="course"]');
-    sel.innerHTML = '<option value="">Course interested</option>';
-    courses.forEach(c=>{
-      const li = document.createElement('li'); li.textContent = `${c.name} — ${c.duration}`;
-      list.appendChild(li);
-      const opt = document.createElement('option'); opt.value = c.name; opt.textContent = c.name;
-      sel.appendChild(opt);
-    });
+/*-------------------------------------------------------
+  UTILITY FUNCTIONS
+---------------------------------------------------------*/
+function $(selector) {
+  return document.querySelector(selector);
+}
 
-    // Placements
-    const placements = await fetchJSON(`${API_BASE}/placements?uni=${uni}`);
-    el('#placements').innerHTML = `<p>Top recruiters: ${placements.top_recruiters.join(', ')}</p><p>Average package: ${placements.avg_package}</p>`;
+function fadeIn(el) {
+  el.style.opacity = 0;
+  el.style.transition = "opacity 0.8s ease";
+  setTimeout(() => (el.style.opacity = 1), 20);
+}
 
-    // Facilities
-    const fac = await fetchJSON(`${API_BASE}/facilities?uni=${uni}`);
-    el('#facilities').innerHTML = '<ul>' + fac.map(f=>`<li>${f}</li>`).join('') + '</ul>';
+/*-------------------------------------------------------
+  LOAD PAGE DATA
+---------------------------------------------------------*/
+async function initPage(type) {
+  animateSections();
+  setupModal();
+  setupFAQ();
+  setupScrollTop();
 
-    // form handling
-    setupForm(uni);
-  }catch(err){
-    console.error(err);
-    document.body.insertAdjacentHTML('beforeend', `<div class="error section">Unable to load data — ${err.message}</div>`);
+  loadOverview(type);
+  loadCourses(type);
+  loadFees(type);
+  loadPlacements(type);
+  loadFacilities(type);
+}
+
+/*-------------------------------------------------------
+  OVERVIEW
+---------------------------------------------------------*/
+async function loadOverview(type) {
+  try {
+    const data = await api("overview");
+    $("#overview").innerHTML = data[type] || "No overview available.";
+  } catch {
+    $("#overview").innerHTML = "Error loading overview.";
   }
 }
 
-async function loadFeesModal(uni){
-  try{
-    const feesJson = await fetchJSON(`${API_BASE}/fees?uni=${uni}`);
-    // feesJson is {courses: [{name, feeRange:{min,max}, details:{...}}]}
-    let html = '<table class="fees-table"><thead><tr><th>Course</th><th>Fee Range (INR)</th></tr></thead><tbody>';
-    feesJson.courses.forEach(c=>{
-      html += `<tr><td>${c.name}</td><td>₹${c.feeRange.min.toLocaleString()} - ₹${c.feeRange.max.toLocaleString()}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    showModal(html);
-  }catch(e){ showModal(`<div class="error">Failed to load fees: ${e.message}</div>`); }
+/*-------------------------------------------------------
+  COURSES
+---------------------------------------------------------*/
+async function loadCourses(type) {
+  try {
+    const data = await api("courses");
+    const container = $("#courses");
+
+    container.innerHTML = data[type]
+      .map(item => `<div class="course-card">${item}</div>`)
+      .join("");
+
+    fadeIn(container);
+  } catch {
+    $("#courses").innerHTML = "Error loading courses.";
+  }
 }
 
-function setupForm(uni){
-  const form = el('#lead-form');
-  const msg = el('#form-msg');
-  form.addEventListener('submit', async (ev)=>{
-    ev.preventDefault();
-    msg.textContent = '';
+/*-------------------------------------------------------
+  FEES MODAL
+---------------------------------------------------------*/
+async function loadFees(type) {
+  try {
+    const data = await api("fees");
+    window.feesData = data[type];
+  } catch {
+    console.warn("Could not load fees");
+  }
+}
 
-    const fd = new FormData(form);
-    const payload = {
-      uni,
-      fullName: (fd.get('fullName') || '').trim(),
-      email: (fd.get('email') || '').trim(),
-      phone: (fd.get('phone') || '').trim(),
-      state: (fd.get('state') || '').trim(),
-      course: (fd.get('course') || '').trim(),
-      intake: (fd.get('intake') || '').trim(),
-      consent: !!fd.get('consent')
-    };
+function openFeesModal() {
+  const modal = $("#modal");
+  const body = $("#modal-body");
 
-    // Validation: phone 10 digits India, required consent
-    if(!/^[6-9]\d{9}$/.test(payload.phone)){
-      msg.innerHTML = `<div class="error">Enter a valid 10-digit Indian phone number.</div>`;
-      return;
-    }
-    if(!payload.consent){
-      msg.innerHTML = `<div class="error">Consent is required to submit.</div>`;
-      return;
-    }
+  if (!window.feesData) {
+    body.innerHTML = "<p>Error loading fees.</p>";
+  } else {
+    body.innerHTML = window.feesData
+      .map(f => `<div class="fee-item"><strong>${f.course}:</strong> ₹${f.fee}/year</div>`)
+      .join("");
+  }
 
-    // POST to PIPEDREAM endpoint — Replace PIPEDREAM_URL below with your workflow URL
-    const PIPEDREAM_URL = window.PIPEDREAM_ENDPOINT || 'https://example.com/replace-with-your-pipedream'; 
+  modal.style.display = "flex";
+}
 
-    try{
-      const r = await fetch(PIPEDREAM_URL, {
-        method:'POST',
-        headers:{'content-type':'application/json'},
-        body: JSON.stringify(payload)
-      });
-      if(!r.ok) throw new Error('Failed to send lead');
-      const result = await r.json().catch(()=>({ok:true}));
-      msg.innerHTML = `<div class="success">Thanks! Your enquiry was submitted successfully.</div>`;
-      form.reset();
-    }catch(err){
-      console.error(err);
-      msg.innerHTML = `<div class="error">Submission failed — please try again later.</div>`;
-    }
+function setupModal() {
+  $("#modal").addEventListener("click", e => {
+    if (e.target.id === "modal") e.target.style.display = "none";
+  });
+}
+
+/*-------------------------------------------------------
+  FACILITIES
+---------------------------------------------------------*/
+async function loadFacilities(type) {
+  try {
+    const data = await api("facilities");
+    $("#facilities").innerHTML = data[type]
+      .map(f => `<span class="facility-pill">${f}</span>`)
+      .join("");
+  } catch {
+    $("#facilities").innerHTML = "Error loading facilities.";
+  }
+}
+
+/*-------------------------------------------------------
+  PLACEMENTS
+---------------------------------------------------------*/
+async function loadPlacements(type) {
+  try {
+    const data = await api("placements");
+    $("#placements").innerHTML = `
+      <div class="stat">Highest Package: <strong>₹${data[type].highest} LPA</strong></div>
+      <div class="stat">Avg Package: <strong>₹${data[type].average} LPA</strong></div>
+    `;
+  } catch {
+    $("#placements").innerHTML = "Error loading placement data.";
+  }
+}
+
+/*-------------------------------------------------------
+  FAQ Accordion
+---------------------------------------------------------*/
+function setupFAQ() {
+  document.querySelectorAll(".faq-item").forEach(item => {
+    item.addEventListener("click", () => {
+      item.classList.toggle("open");
+    });
+  });
+}
+
+/*-------------------------------------------------------
+  Scroll to Top Button
+---------------------------------------------------------*/
+function setupScrollTop() {
+  const btn = $("#scrollTop");
+
+  window.addEventListener("scroll", () => {
+    btn.style.opacity = window.scrollY > 300 ? 1 : 0;
   });
 
-  // clear
-  const clearBtn = el('#clear-form');
-  if(clearBtn) clearBtn.addEventListener('click', ()=>{ form.reset(); el('#form-msg').textContent = ''; });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+
+/*-------------------------------------------------------
+  Animations on Scroll
+---------------------------------------------------------*/
+function animateSections() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll(".section").forEach(sec => observer.observe(sec));
+}
+
+/*-------------------------------------------------------
+  FORM SUBMISSION (PIPEDREAM)
+---------------------------------------------------------*/
+async function submitLead(e, type) {
+  e.preventDefault();
+  const btn = $("#submitBtn");
+  btn.innerHTML = "Submitting...";
+
+  const payload = {
+    university: type,
+    name: $("#fullName").value,
+    email: $("#email").value,
+    phone: $("#phone").value,
+    program: $("#program").value
+  };
+
+  try {
+    const res = await fetch(window.PIPEDREAM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      btn.innerHTML = "Submitted ✓";
+      alert("Lead submitted successfully!");
+    } else {
+      throw new Error();
+    }
+  } catch {
+    alert("Failed to submit. Try again.");
+  }
+
+  setTimeout(() => (btn.innerHTML = "Submit"), 1500);
 }
