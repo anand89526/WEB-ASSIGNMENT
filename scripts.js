@@ -1,213 +1,171 @@
-// scripts.js
+// scripts.js – shared behaviour for both landing pages
 (() => {
   const API_BASE = "/api";
 
-  // Small helpers
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  function $(selector, root = document) {
+    return root.querySelector(selector);
+  }
+  function $all(selector, root = document) {
+    return Array.from(root.querySelectorAll(selector));
+  }
 
   async function fetchJSON(path) {
     const res = await fetch(path);
-    if (!res.ok) throw new Error(`Network error: ${res.status}`);
+    if (!res.ok) throw new Error(`Network error ${res.status}`);
     return res.json();
   }
 
-  /* ---------- NAVIGATION & INTERACTION ---------- */
+  // ---------- CONTENT LOADERS ----------
 
-  function setupNavigation() {
-    const navLinks = $$(".nav-link");
-    if (!navLinks.length) return;
+  async function loadOverview(uni) {
+    const target = $("#overview-text");
+    if (!target) return;
+    target.textContent = "Loading overview…";
 
-    navLinks.forEach((btn) => {
-      const target = btn.getAttribute("data-scroll");
-      if (!target) return;
-
-      btn.addEventListener("click", () => {
-        const section = $(target);
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-        navLinks.forEach((b) => b.classList.remove("is-active"));
-        btn.classList.add("is-active");
-      });
-    });
-  }
-
-  function setupHeroButtons(uni) {
-    // Apply now scroll button
-    const applyBtnId = uni === "amity" ? "scroll-apply-amity" : "scroll-apply-cu";
-    const applyBtn = document.getElementById(applyBtnId);
-    if (applyBtn) {
-      applyBtn.addEventListener("click", () => {
-        const applySection = document.getElementById("apply");
-        if (applySection) {
-          applySection.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
-    }
-
-    // Fake brochure download (just shows a toast for demo)
-    const brochureId =
-      uni === "amity" ? "download-brochure-amity" : "download-brochure-cu";
-    const brochureBtn = document.getElementById(brochureId);
-    if (brochureBtn) {
-      brochureBtn.addEventListener("click", () => {
-        alert("Demo only: brochure download is mocked for this assignment.");
-      });
+    try {
+      const data = await fetchJSON(`${API_BASE}/overview?uni=${uni}`);
+      target.textContent = data.description || "Overview not available.";
+    } catch (err) {
+      console.error(err);
+      target.textContent = "Unable to load overview right now.";
     }
   }
 
-  function setupAccordion() {
-    const items = $$("[data-acc]");
-    items.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const panel = btn.nextElementSibling;
-        if (!panel) return;
-        const open = panel.classList.toggle("open");
-        btn.querySelector(".acc-icon").textContent = open ? "−" : "+";
+  async function loadCourses(uni) {
+    const container = $("#courses-grid");
+    const select = $("#course-select");
+    if (!container) return;
+
+    container.innerHTML = "<p>Loading courses…</p>";
+    if (select) {
+      select.innerHTML = '<option value="">Loading courses…</option>';
+    }
+
+    try {
+      const data = await fetchJSON(`${API_BASE}/courses?uni=${uni}`);
+
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = "<p>No courses found (demo).</p>";
+        if (select) {
+          select.innerHTML = '<option value="">No courses available</option>';
+        }
+        return;
+      }
+
+      // Render cards
+      container.innerHTML = "";
+      data.forEach((c) => {
+        const card = document.createElement("article");
+        card.className = "course-card";
+        card.innerHTML = `
+          <h3>${c.name}</h3>
+          <p class="course-duration">${c.duration || ""}</p>
+          <p class="course-tag">Demo listing from JSON API</p>
+        `;
+        container.appendChild(card);
       });
-    });
+
+      // Fill select
+      if (select) {
+        select.innerHTML =
+          '<option value="">Select course</option>' +
+          data
+            .map((c) => `<option value="${c.name}">${c.name}</option>`)
+            .join("");
+      }
+    } catch (err) {
+      console.error(err);
+      container.innerHTML =
+        '<p class="error-text">Could not load courses. Please refresh.</p>';
+      if (select) {
+        select.innerHTML =
+          '<option value="">Failed to load courses</option>';
+      }
+    }
   }
 
-  /* ---------- MODAL (FEES) ---------- */
+  async function loadPlacements(uni) {
+    const box = $("#placements-content");
+    if (!box) return;
+    box.textContent = "Loading placements…";
 
-  function setupModal() {
-    const modal = $("#modal");
-    const closeBtn = $("#close-modal");
-    if (!modal || !closeBtn) return;
+    try {
+      const data = await fetchJSON(`${API_BASE}/placements?uni=${uni}`);
+      const recruiters = (data.top_recruiters || []).join(", ");
+      box.innerHTML = `
+        <p><strong>Top recruiters:</strong> ${recruiters || "N/A"}</p>
+        <p><strong>Average package:</strong> ${data.avg_package || "N/A"}</p>
+        ${
+          data.details
+            ? `<p class="micro-copy">Highest package (demo): ${data.details.highest} (Batch ${data.details.year})</p>`
+            : ""
+        }
+      `;
+    } catch (err) {
+      console.error(err);
+      box.textContent = "Unable to load placements right now.";
+    }
+  }
 
-    closeBtn.addEventListener("click", () => {
-      modal.classList.remove("show");
-    });
+  async function loadFacilities(uni) {
+    const chips = $("#facilities-chips");
+    if (!chips) return;
 
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) modal.classList.remove("show");
-    });
+    chips.innerHTML = "";
+    try {
+      const data = await fetchJSON(`${API_BASE}/facilities?uni=${uni}`);
+      if (!Array.isArray(data) || data.length === 0) {
+        chips.innerHTML = "<span class='chip'>Facilities data not available</span>";
+        return;
+      }
+      chips.innerHTML = data.map((f) => `<span class="chip">${f}</span>`).join("");
+    } catch (err) {
+      console.error(err);
+      chips.innerHTML =
+        "<span class='chip'>Error while loading facilities</span>";
+    }
   }
 
   async function openFeesModal(uni) {
     const modal = $("#modal");
-    const modalContent = $("#modal-content");
-    if (!modal || !modalContent) return;
+    const content = $("#modal-content");
+    if (!modal || !content) return;
 
-    modalContent.textContent = "Loading fees…";
+    content.innerHTML = "Loading fees…";
     modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
 
     try {
       const data = await fetchJSON(`${API_BASE}/fees?uni=${uni}`);
-      const rows = (data.courses || [])
-        .map(
-          (c) =>
-            `<tr><td>${c.name}</td><td>₹${c.feeRange.min.toLocaleString()} – ₹${c.feeRange.max.toLocaleString()}</td></tr>`
-        )
-        .join("");
+      const courses = (data.courses || []).map(
+        (c) => `
+        <tr>
+          <td>${c.name}</td>
+          <td>₹${c.feeRange.min.toLocaleString()} – ₹${c.feeRange.max.toLocaleString()}</td>
+        </tr>`
+      );
 
-      modalContent.innerHTML = `
-        <p class="small">Fees shown below are sample ranges for demo purpose only.</p>
+      content.innerHTML = `
+        <p class="section-subtitle">Demo fee ranges (not real university data).</p>
         <table class="fees-table">
-          <thead><tr><th>Course</th><th>Annual fee (approx.)</th></tr></thead>
-          <tbody>${rows || "<tr><td colspan='2'>No data.</td></tr>"}</tbody>
+          <thead><tr><th>Course</th><th>Fee range / year</th></tr></thead>
+          <tbody>
+            ${courses.join("")}
+          </tbody>
         </table>
       `;
     } catch (err) {
       console.error(err);
-      modalContent.innerHTML = `<div class="error">Unable to load fees. Please try again later.</div>`;
+      content.innerHTML =
+        '<p class="error-text">Unable to load fee details at the moment.</p>';
     }
   }
 
-  /* ---------- API DATA BINDING ---------- */
+  // ---------- FORM & INTERACTION ----------
 
-  async function loadUniversityData(uni) {
-    // Overview
-    const overviewEl = $("#overview-text");
-    if (overviewEl) {
-      try {
-        const overview = await fetchJSON(`${API_BASE}/overview?uni=${uni}`);
-        overviewEl.textContent = overview.description || "Overview not available.";
-      } catch (err) {
-        console.error(err);
-        overviewEl.textContent = "Unable to load overview.";
-      }
-    }
-
-    // Courses
-    const coursesContainer = $("#courses-container");
-    const coursesSelect = $('select[name="course"]');
-    if (coursesContainer) {
-      try {
-        const courses = await fetchJSON(`${API_BASE}/courses?uni=${uni}`);
-        if (!courses.length) {
-          coursesContainer.innerHTML = "<p>No courses found.</p>";
-        } else {
-          coursesContainer.innerHTML = "";
-          courses.forEach((c) => {
-            const card = document.createElement("article");
-            card.className = "course-card";
-            card.innerHTML = `
-              <h3>${c.name}</h3>
-              <p class="small">Duration: ${c.duration}</p>
-            `;
-            coursesContainer.appendChild(card);
-          });
-        }
-
-        if (coursesSelect) {
-          coursesSelect.innerHTML =
-            '<option value="">Course interested</option>' +
-            courses
-              .map(
-                (c) =>
-                  `<option value="${c.name.replace(/"/g, "&quot;")}">${c.name}</option>`
-              )
-              .join("");
-        }
-      } catch (err) {
-        console.error(err);
-        coursesContainer.innerHTML =
-          '<div class="error">Unable to load courses at the moment.</div>';
-      }
-    }
-
-    // Placements
-    const placementsEl = $("#placements-content");
-    if (placementsEl) {
-      try {
-        const data = await fetchJSON(`${API_BASE}/placements?uni=${uni}`);
-        placementsEl.innerHTML = `
-          <p><strong>Top recruiters:</strong> ${data.top_recruiters.join(", ")}</p>
-          <p><strong>Average package:</strong> ${data.avg_package}</p>
-          <p class="small">Highest package (demo): ${data.details.highest} (year ${data.details.year})</p>
-        `;
-      } catch (err) {
-        console.error(err);
-        placementsEl.innerHTML =
-          '<div class="error">Unable to load placements.</div>';
-      }
-    }
-
-    // Facilities
-    const facilitiesChips = $("#facilities-chips");
-    if (facilitiesChips) {
-      try {
-        const facilities = await fetchJSON(`${API_BASE}/facilities?uni=${uni}`);
-        facilitiesChips.innerHTML = facilities
-          .map((f) => `<span class="chip-pill">${f}</span>`)
-          .join("");
-      } catch (err) {
-        console.error(err);
-        facilitiesChips.innerHTML =
-          '<div class="error">Unable to load facilities.</div>';
-      }
-    }
-  }
-
-  /* ---------- LEAD FORM / PIPEDREAM ---------- */
-
-  function setupForm(uni) {
+  function setupLeadForm(uni) {
     const form = $("#lead-form");
     const msg = $("#form-msg");
-    const clearBtn = $("#clear-form");
-
     if (!form || !msg) return;
 
     form.addEventListener("submit", async (ev) => {
@@ -226,43 +184,44 @@
         consent: !!fd.get("consent"),
       };
 
-      // Phone validation for India
+      // simple validations
       if (!/^[6-9]\d{9}$/.test(payload.phone)) {
         msg.innerHTML =
-          '<div class="error">Enter a valid 10-digit Indian mobile number.</div>';
+          '<div class="msg error">Enter a valid 10-digit Indian phone number.</div>';
         return;
       }
       if (!payload.consent) {
         msg.innerHTML =
-          '<div class="error">Please tick the consent checkbox to continue.</div>';
+          '<div class="msg error">Please tick the consent checkbox to continue.</div>';
         return;
       }
 
       const endpoint = window.PIPEDREAM_ENDPOINT;
-      if (!endpoint || endpoint.includes("YOUR-PIPEDREAM-URL")) {
+      if (!endpoint || !endpoint.startsWith("https://")) {
         msg.innerHTML =
-          '<div class="error">Pipedream endpoint not configured. (Demo mode only.)</div>';
+          '<div class="msg error">Pipedream endpoint not configured.</div>';
         return;
       }
 
       try {
         const res = await fetch(endpoint, {
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        if (!res.ok) throw new Error("Network error while sending lead");
 
+        if (!res.ok) throw new Error("Bad status " + res.status);
         msg.innerHTML =
-          '<div class="success">Thank you! Your enquiry has been submitted successfully.</div>';
+          '<div class="msg success">Thank you! Your enquiry has been submitted.</div>';
         form.reset();
       } catch (err) {
         console.error(err);
         msg.innerHTML =
-          '<div class="error">Could not submit the form. Please retry later.</div>';
+          '<div class="msg error">Submission failed. Please try again later.</div>';
       }
     });
 
+    const clearBtn = $("#clear-form");
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
         form.reset();
@@ -271,30 +230,63 @@
     }
   }
 
-  /* ---------- MAIN ENTRY ---------- */
-
-  async function initPage(uni) {
-    try {
-      setupNavigation();
-      setupAccordion();
-      setupModal();
-      setupHeroButtons(uni);
-
-      await loadUniversityData(uni);
-      setupForm(uni);
-
-      // Attach fees button handlers
-      $$("button[data-fees]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const targetUni = btn.getAttribute("data-fees") || uni;
-          openFeesModal(targetUni.toLowerCase());
-        });
+  function setupNavScroll() {
+    $all("[data-scroll]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = document.querySelector(btn.dataset.scroll);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
-    } catch (err) {
-      console.error("Error while initialising page", err);
+    });
+  }
+
+  function setupFeesButtons(uni) {
+    $all("[data-fees]").forEach((btn) => {
+      btn.addEventListener("click", () => openFeesModal(uni));
+    });
+
+    const modal = $("#modal");
+    const close = $("#close-modal");
+    if (modal && close) {
+      close.addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.remove("show");
+          modal.setAttribute("aria-hidden", "true");
+        }
+      });
     }
   }
 
-  // Expose initPage globally so HTML can call it
-  window.initPage = initPage;
+  function setupFAQ() {
+    $all(".faq-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        if (!content) return;
+        const open = content.classList.toggle("open");
+        btn.querySelector("span:last-child").textContent = open ? "−" : "＋";
+      });
+    });
+  }
+
+  // ---------- PUBLIC ENTRY POINT ----------
+
+  window.initPage = function initPage(uni) {
+    // content
+    loadOverview(uni);
+    loadCourses(uni);
+    loadPlacements(uni);
+    loadFacilities(uni);
+
+    // interactions
+    setupLeadForm(uni);
+    setupNavScroll();
+    setupFeesButtons(uni);
+    setupFAQ();
+  };
 })();
